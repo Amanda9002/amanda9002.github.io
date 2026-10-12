@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ahsan Ahmed | Naval Architecture &amp; Marine Engineering</title>
+<meta name="description" content="Ahsan Ahmed, Naval Architecture and Marine Engineering, BUET. Smoothed Particle Hydrodynamics, CFD, ship hydrodynamics and fluid–structure interaction.">
+<meta property="og:title" content="Ahsan Ahmed">
+<meta property="og:description" content="Naval architect and researcher. SPH, CFD and ship hydrodynamics.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF2F3;
+  --panel:#FFFFFF;
+  --ink:#14283B;
+  --muted:#566977;
+  --line:#CBD5DA;
+  --sea:#2B7A8A;
+  --sea-soft:#D6E7EA;
+  --buoy:#D9A23A;
+  --serif:"Spectral",Georgia,serif;
+  --sans:"Public Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1C27;--panel:#162634;--ink:#E4ECEF;--muted:#9AAEBA;--line:#2A3E4E;--sea:#5DB3C2;--sea-soft:#1E3A47;--buoy:#E6B455;
+  }
+}
+:root[data-theme="dark"]{--paper:#0F1C27;--panel:#162634;--ink:#E4ECEF;--muted:#9AAEBA;--line:#2A3E4E;--sea:#5DB3C2;--sea-soft:#1E3A47;--buoy:#E6B455;}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--sea);text-underline-offset:3px}
+a:hover{color:var(--ink)}
+:focus-visible{outline:2px solid var(--buoy);outline-offset:3px;border-radius:2px}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.2;margin:0}
+h2{font-size:2rem;margin-bottom:1.25rem}
+h3{font-size:1.2rem}
+p{margin:0 0 1em}
+
+/* Layout */
+.wrap{display:grid;grid-template-columns:230px minmax(0,1fr);max-width:1180px;margin:0 auto;gap:56px;padding:0 32px}
+nav.side{position:sticky;top:0;height:100vh;padding:40px 0;display:flex;flex-direction:column;gap:28px}
+nav.side .name{font-family:var(--serif);font-size:1.25rem;font-weight:600;color:var(--ink);text-decoration:none}
+nav.side ul{list-style:none;margin:0;padding:0;border-left:1px solid var(--line)}
+nav.side li a{display:block;padding:6px 0 6px 16px;margin-left:-1px;border-left:2px solid transparent;color:var(--muted);text-decoration:none;font-size:.95rem}
+nav.side li a:hover{color:var(--ink)}
+nav.side li a.active{color:var(--ink);border-left-color:var(--sea);font-weight:500}
+nav.side .side-foot{margin-top:auto;font-size:.85rem;color:var(--muted)}
+nav.side .side-foot a{display:block;color:var(--muted)}
+main{padding:40px 0 80px;min-width:0}
+section{padding:56px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:0;padding-top:0}
+.prose{max-width:68ch}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;padding-top:24px}
+.photo{width:148px;height:148px;border-radius:50%;overflow:hidden;background:var(--sea-soft);display:grid;place-items:center;font-family:var(--serif);font-size:2.6rem;color:var(--sea);border:3px solid var(--panel);box-shadow:0 0 0 1px var(--line)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.hero h1{font-size:clamp(2.4rem,5vw,3.6rem);letter-spacing:-.01em}
+.hero .role{font-family:var(--serif);font-style:italic;font-size:1.2rem;color:var(--muted);margin:.35rem 0 0}
+.lede{font-size:1.1rem;max-width:62ch;margin:28px 0 24px}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:10px 18px;border-radius:6px;font-weight:500;font-size:.95rem;text-decoration:none;border:1px solid var(--ink);color:var(--ink)}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--sea);border-color:var(--sea);color:#fff}
+
+/* Towing tank */
+.tank{margin:40px 0 0;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.tank canvas{display:block;width:100%;height:220px}
+.tank figcaption{font-size:.85rem;color:var(--muted);padding:10px 16px;border-top:1px solid var(--line)}
+
+/* Interests */
+.interests{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:8px 0 0}
+.interests li{background:var(--sea-soft);color:var(--ink);padding:5px 12px;border-radius:999px;font-size:.92rem}
+.interests li.minor{background:transparent;border:1px solid var(--line);color:var(--muted)}
+.subhead{font-family:var(--serif);font-size:1.15rem;margin:32px 0 6px}
+
+/* Timeline entries */
+.entry{display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px;padding:22px 0;border-top:1px solid var(--line)}
+.entry:first-of-type{border-top:0}
+.when{font-size:.88rem;color:var(--muted);padding-top:3px}
+.entry .tag{display:inline-block;font-size:.8rem;color:var(--sea);font-weight:600;margin-bottom:4px}
+.entry h3{margin-bottom:4px}
+.entry .who{color:var(--muted);font-size:.93rem;margin-bottom:10px}
+.entry p{max-width:66ch}
+details{margin-top:6px}
+summary{cursor:pointer;color:var(--sea);font-weight:500;font-size:.95rem;list-style:none;display:inline-flex;align-items:center;gap:6px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";display:inline-grid;place-items:center;width:18px;height:18px;border:1px solid currentColor;border-radius:50%;font-size:.8rem;line-height:1}
+details[open] summary::before{content:"−"}
+details .more{margin-top:12px;padding:14px 18px;background:var(--panel);border:1px solid var(--line);border-radius:8px;max-width:66ch}
+details .more ul{margin:0;padding-left:1.1em}
+details .more li{margin-bottom:6px}
+.figures{display:flex;flex-wrap:wrap;gap:28px;margin:4px 0 14px}
+.figures div{font-size:.85rem;color:var(--muted);line-height:1.3}
+.figures b{display:block;font-family:var(--serif);font-size:1.6rem;color:var(--ink);font-weight:600}
+
+/* Publications */
+.pub{padding:18px 0;border-top:1px solid var(--line);max-width:70ch}
+.pub:first-of-type{border-top:0}
+.pub .title{font-family:var(--serif);font-size:1.12rem;font-weight:600;display:block;margin-bottom:4px}
+.pub .authors{font-size:.95rem;color:var(--muted)}
+.pub .authors b{color:var(--ink);font-weight:600}
+.status{display:inline-block;margin-top:6px;font-size:.8rem;padding:2px 10px;border-radius:999px;border:1px solid var(--buoy);color:var(--ink)}
+
+/* Lists */
+.plain{list-style:none;padding:0;margin:0;max-width:70ch}
+.plain li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;padding:12px 0;border-top:1px solid var(--line)}
+.plain li:first-child{border-top:0}
+.plain .yr{color:var(--muted);font-size:.9rem;padding-top:2px}
+.courses{columns:2;column-gap:32px;padding-left:1.1em;max-width:66ch;margin:8px 0 0}
+.courses li{margin-bottom:4px;break-inside:avoid}
+
+/* Skills */
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px 32px;max-width:820px}
+.skills h3{font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--sea);margin-bottom:6px}
+.skills p{margin:0;font-size:.98rem}
+
+/* Contact */
+.contact-grid{display:grid;grid-template-columns:140px minmax(0,1fr);gap:10px 20px;max-width:560px;margin-top:20px}
+.contact-grid dt{color:var(--muted);font-size:.92rem}
+.contact-grid dd{margin:0;overflow-wrap:anywhere}
+footer{font-size:.85rem;color:var(--muted);padding-top:40px}
+
+/* Mobile */
+.topbar{display:none}
+@media (max-width: 900px){
+  .wrap{grid-template-columns:1fr;padding:0 16px;gap:0}
+  nav.side{display:none}
+  .topbar{display:flex;position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);padding:10px 16px;gap:18px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+  .topbar::-webkit-scrollbar{display:none}
+  .topbar a{color:var(--muted);text-decoration:none;font-size:.92rem}
+  .topbar a.home{color:var(--ink);font-family:var(--serif);font-weight:600}
+  main{padding-top:24px}
+  .hero{grid-template-columns:1fr;gap:18px}
+  .photo{width:112px;height:112px;font-size:2rem}
+  .entry{grid-template-columns:1fr;gap:4px}
+  .courses{columns:1}
+  .plain li{grid-template-columns:1fr;gap:2px}
+  .contact-grid{grid-template-columns:1fr;gap:2px}
+  .contact-grid dd{margin-bottom:12px}
+  h2{font-size:1.7rem}
+  .tank canvas{height:170px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar" aria-label="Sections">
+  <a class="home" href="#top">Ahsan Ahmed</a>
+  <a href="#about">About</a>
+  <a href="#research">Research</a>
+  <a href="#publications">Publications</a>
+  <a href="#education">Education</a>
+  <a href="#awards">Awards</a>
+  <a href="#skills">Skills</a>
+  <a href="#activities">Activities</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<div class="wrap">
+  <nav class="side" aria-label="Sections">
+    <a class="name" href="#top">Ahsan Ahmed</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research &amp; projects</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#awards">Awards</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#activities">Activities</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="side-foot">
+      <a href="mailto:ahsanahmed2012024@gmail.com">ahsanahmed2012024@gmail.com</a>
+      <a href="https://www.linkedin.com/in/ahsan-ahmed-a17333233/">LinkedIn</a>
+      <a href="cv.pdf">CV (PDF)</a>
+    </div>
+  </nav>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section aria-label="Introduction">
+      <div class="hero">
+        <div class="photo" id="photo">
+          <img src="profile.jpg" alt="Portrait of Ahsan Ahmed" onerror="this.remove();document.getElementById('photo').textContent='AA'">
+        </div>
+        <div>
+          <h1>Ahsan Ahmed</h1>
+          <p class="role">Naval architect working on mesh-free ship hydrodynamics</p>
+        </div>
+      </div>
+      <p class="lede">I use Smoothed Particle Hydrodynamics (SPH) to predict how ships move through water. My undergraduate thesis built a numerical towing tank that matched experimental calm-water resistance of the KCS container ship to within 6.5%, and I am now extending it to waves.</p>
+      <div class="actions">
+        <a class="btn primary" href="cv.pdf">Download CV</a>
+        <a class="btn" href="#research">See my research</a>
+        <a class="btn" href="#contact">Contact me</a>
+      </div>
+      <figure class="tank">
+        <canvas id="tank" aria-label="Animated sketch of water particles flowing past a container ship hull" role="img"></canvas>
+        <figcaption>A sketch of an SPH towing tank: water is represented as particles rather than a mesh. Particles here are 9 px apart, a nod to the 9 mm spacing my thesis convergence study selected.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <h2>About</h2>
+      <div class="prose">
+        <p>I completed my B.Sc. in Naval Architecture and Marine Engineering at the <a href="https://www.buet.ac.bd/">Bangladesh University of Engineering and Technology (BUET)</a> in June 2026, majoring in hydrodynamics and structure, with a CGPA of 3.57 / 4.00 (3.89 in my final semester) and a class rank of 8 out of 55.</p>
+        <p>My research applies Smoothed Particle Hydrodynamics, a mesh-free CFD method, to ship hydrodynamics. For my undergraduate thesis, supervised by Dr. Md. Mashiur Rahaman, I developed a numerical towing tank in the GPU-accelerated DualSPHysics solver and predicted the calm-water resistance of the KCS hull across Froude numbers 0.152 to 0.282. I am now extending the validated model to regular head waves to predict added resistance and heave–pitch motions.</p>
+        <p>Alongside the hydrodynamics, my training covers ship structures and finite element analysis. As part of BUET's Team Black Pearl, I carried out the structural design of an aluminium catamaran ferry that placed 3rd globally in the Worldwide Ferry Safety Association's International Student Design Competition in 2026.</p>
+        <p>I am applying for graduate study in the United States.</p>
+      </div>
+      <h3 class="subhead">Research interests</h3>
+      <ul class="interests">
+        <li>Smoothed Particle Hydrodynamics (SPH)</li>
+        <li>Computational Fluid Dynamics (CFD)</li>
+        <li>Ship Hydrodynamics</li>
+        <li>Fluid–Structure Interaction</li>
+        <li>Free-Surface and Multiphase Flows</li>
+        <li>Fluid Mechanics</li>
+        <li class="minor">Finite Element Method</li>
+        <li class="minor">Structural Analysis of Marine Structures</li>
+        <li class="minor">Heat Transfer</li>
+      </ul>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research">
+      <h2>Research &amp; projects</h2>
+
+      <article class="entry">
+        <div class="when">Sep 2026 – Present</div>
+        <div>
+          <span class="tag">Ongoing research</span>
+          <h3>Added resistance and heave–pitch motions of the KCS hull in regular head waves</h3>
+          <div class="who">Supervisor: Dr. Md. Mashiur Rahaman, Dept. of NAME, BUET</div>
+          <p>Extending the calm-water SPH model to regular head waves to predict added resistance and heave–pitch motions of the KCS hull in DualSPHysics.</p>
+          <details>
+            <summary>Project details</summary>
+            <div class="more">
+              <ul>
+                <li>Builds directly on the validated calm-water numerical towing tank from my thesis.</li>
+                <li>Predictions are being validated against published towing tank data.</li>
+                <li>Free-surface flow features in waves are compared with the calm-water condition.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="when">Apr 2025 – Jun 2026</div>
+        <div>
+          <span class="tag">Undergraduate thesis</span>
+          <h3>Prediction of calm water resistance of a ship using Smoothed Particle Hydrodynamics</h3>
+          <div class="who">Supervisor: Dr. Md. Mashiur Rahaman, Dept. of NAME, BUET</div>
+          <p>Applied the mesh-free SPH method to predict the calm-water resistance of the KCS hull using the GPU-accelerated DualSPHysics solver, validated against experimental towing tank data.</p>
+          <details>
+            <summary>Project details</summary>
+            <div class="more">
+              <div class="figures">
+                <div><b>&lt; 6.5%</b>error against towing tank data</div>
+                <div><b>0.152–0.282</b>Froude number range</div>
+                <div><b>9 mm</b>optimal particle spacing</div>
+              </div>
+              <ul>
+                <li>Developed a numerical towing tank for the KCS hull in DualSPHysics.</li>
+                <li>Ran a convergence study across particle resolutions from 8 mm to 11 mm and identified 9 mm as the optimal spacing.</li>
+                <li>Processed simulation output with Python and ParaView.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="when">Sep 2025 – Mar 2026</div>
+        <div>
+          <span class="tag">International design competition, 3rd place (global)</span>
+          <h3>RoPax ferry for the Niger River, Nigeria</h3>
+          <div class="who">Worldwide Ferry Safety Association, 13th International Student Design Competition. Faculty advisor: Dr. Zobair Ibn Awal, Dept. of NAME, BUET</div>
+          <p>A ferry for 200 passengers and their personal and market cargo between Lokoja and the trading city of Onitsha. I worked on the structural design and stability analysis.</p>
+          <details>
+            <summary>Project details</summary>
+            <div class="more">
+              <ul>
+                <li>Structural scantling calculations to Bureau Veritas (BV) rules for an Aluminium-5086 longitudinally framed catamaran, including the midship section design.</li>
+                <li>Detailed lightship weight estimate, and longitudinal strength checks under normal and grounding conditions.</li>
+                <li>Intact stability, probabilistic damage stability, floodable length and seakeeping analyses in MAXSURF to verify compliance with IMO/SOLAS criteria.</li>
+                <li>The team presented the design at the WFSA Ferry Safety and Technology Conference in May 2026.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="when">Jan 2024 – Feb 2025</div>
+        <div>
+          <span class="tag">Junior year project</span>
+          <h3>Inland passenger ferry for 50 cars and 700 passengers, Dhaka–Hatiya–Dhaka</h3>
+          <div class="who">Supervisor: Dr. Goutam Kumar Saha, Dept. of NAME, BUET</div>
+          <p>A complete ferry design for a narrow, congested inland route, taken from hydrostatics through to a 3D-printed scale prototype.</p>
+          <details>
+            <summary>Project details</summary>
+            <div class="more">
+              <ul>
+                <li>Hydrostatic, stability, resistance and powering analyses.</li>
+                <li>Scantling calculations to ABS rules, with 2D drawings in AutoCAD.</li>
+                <li>3D CAD model in Rhinoceros and a scaled prototype fabricated by 3D printing.</li>
+                <li>Used a mechanically driven Z-drive azimuthal propulsion system instead of a conventional shaft and rudder, for better manoeuvrability and shallow-water operation.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="when">Jun 2024 – Jul 2024</div>
+        <div>
+          <span class="tag">Industrial internship</span>
+          <h3>Intern, Dockyard &amp; Engineering Works Ltd.</h3>
+          <div class="who">Bangladesh Navy, Narayanganj, Bangladesh</div>
+          <p>Hands-on exposure to a working shipyard, from machining and welding to launching and berthing.</p>
+          <details>
+            <summary>Project details</summary>
+            <div class="more">
+              <ul>
+                <li>Observed CNC machining, welding, marine propulsion systems, shipboard air conditioning and thermal management of engine rooms.</li>
+                <li>Followed core shipbuilding operations: launching, berthing, piping and painting.</li>
+                <li>Learned shipyard management practices, including tendering and multidisciplinary coordination.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </article>
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section id="publications">
+      <h2>Publications &amp; presentations</h2>
+      <div class="pub">
+        <span class="title">Comparative Assessment of Accuracy and Computational Efficiency of Mesh-Based and Mesh-Free CFD Methods for Ship Resistance Prediction</span>
+        <div class="authors">S. P. Gupto, <b>A. Ahmed</b>, S. S. S. Shouvik, and M. M. Rahaman</div>
+        <span class="status">Manuscript in preparation, 2026</span>
+      </div>
+      <div class="pub">
+        <span class="title">Design of the Niger Drift passenger ferry</span>
+        <div class="authors">M. K. M. Zidan, M. A. Rahaman, M. K. Islam, S. P. Gupto, <b>A. Ahmed</b>, S. Tubash, and A. Mondal</div>
+        <div class="authors">Team presentation, Worldwide Ferry Safety Association (WFSA) Ferry Safety and Technology Conference</div>
+        <span class="status">Presented, May 2026</span>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <h2>Education</h2>
+      <article class="entry">
+        <div class="when">Jan 2022 – Jun 2026</div>
+        <div>
+          <h3>B.Sc. in Naval Architecture and Marine Engineering</h3>
+          <div class="who">Bangladesh University of Engineering and Technology, Dhaka</div>
+          <p>CGPA 3.57 / 4.00 (3.89 in final semester). Class rank 8 / 55. Major: Hydrodynamics and Structure.</p>
+          <h3 class="subhead">Relevant coursework</h3>
+          <ul class="courses">
+            <li>Fluid Mechanics</li>
+            <li>Marine Hydrodynamics</li>
+            <li>Computational Fluid Dynamics</li>
+            <li>Resistance and Propulsion of Ships</li>
+            <li>Heat Transfer</li>
+            <li>Power and Propulsion Systems</li>
+            <li>Advanced Ship Structure</li>
+            <li>Ship Vibration</li>
+            <li>Finite Element Method for Ship Structure</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <!-- AWARDS -->
+    <section id="awards">
+      <h2>Honours &amp; awards</h2>
+      <ul class="plain">
+        <li><span class="yr">Mar 2026</span><span><b>3rd Place (Global)</b> and US$1,000 prize, 13th Annual International Student Design Competition for Safe and Affordable Ferry, Worldwide Ferry Safety Association, with Team Black Pearl</span></li>
+        <li><span class="yr">2026</span><span><b>2nd Place</b> and BDT 2,000 prize, NAME Olympiad (Senior Category), NAME FEST, BUET</span></li>
+        <li><span class="yr">2022, 2024, 2025</span><span><b>University Merit Scholarship</b>, BUET, for academic excellence</span></li>
+        <li><span class="yr">2020</span><span><b>Education Board Scholarship</b>, Higher Secondary Certificate (HSC) Examination</span></li>
+        <li><span class="yr">2018</span><span><b>Education Board Scholarship</b>, Secondary School Certificate (SSC) Examination</span></li>
+      </ul>
+      <h3 class="subhead">Certifications &amp; training</h3>
+      <ul class="plain">
+        <li><span class="yr">Sep 2026</span><span>Rhino 8 (40.5 hours), Udemy</span></li>
+        <li><span class="yr">Jan 2026</span><span>Fire Fighting, Fire Prevention, Rescue and First Aid Training, Bangladesh Fire Service &amp; Civil Defence Directorate, held at Dept. of NAME, BUET</span></li>
+      </ul>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <h2>Tools I work in</h2>
+      <div class="skills">
+        <div><h3>Simulation</h3><p>DualSPHysics, ANSYS Fluent, ABAQUS</p></div>
+        <div><h3>Programming</h3><p>Python, C, C++, Fortran, MATLAB</p></div>
+        <div><h3>CAD &amp; 3D modelling</h3><p>Rhinoceros 3D, Orca3D, AutoCAD</p></div>
+        <div><h3>Ship design</h3><p>MAXSURF, DELFTship</p></div>
+        <div><h3>Post-processing &amp; writing</h3><p>ParaView, LaTeX, Zotero</p></div>
+        <div><h3>Office</h3><p>Word, Excel, PowerPoint</p></div>
+      </div>
+    </section>
+
+    <!-- ACTIVITIES -->
+    <section id="activities">
+      <h2>Beyond academics</h2>
+      <ul class="plain">
+        <li><span class="yr">2023, 2026</span><span>Volunteer, NAME FEST, Dept. of NAME, BUET</span></li>
+        <li><span class="yr">Member</span><span>Badhan (BUET Unit), voluntary blood donation organization</span></li>
+        <li><span class="yr">Member</span><span>BUET Automobile Club, BUET Career Club, BUET Photographic Society</span></li>
+      </ul>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2>Get in touch</h2>
+      <p class="prose">I am looking for graduate research opportunities in computational fluid dynamics, ship hydrodynamics and fluid–structure interaction.</p>
+      <dl class="contact-grid">
+        <dt>Email</dt><dd><a href="mailto:ahsanahmed2012024@gmail.com">ahsanahmed2012024@gmail.com</a></dd>
+        <dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/ahsan-ahmed-a17333233/">/in/ahsan-ahmed-a17333233</a></dd>
+        <dt>CV</dt><dd><a href="cv.pdf">Download PDF</a></dd>
+        <dt>Location</dt><dd>Dhaka, Bangladesh</dd>
+      </dl>
+      <footer>© 2026 Ahsan Ahmed</footer>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* Sidebar highlight */
+(function(){
+  const links=[...document.querySelectorAll('nav.side li a, .topbar a:not(.home)')];
+  const ids=[...new Set(links.map(a=>a.getAttribute('href').slice(1)))];
+  const secs=ids.map(id=>document.getElementById(id)).filter(Boolean);
+  if(!('IntersectionObserver' in window))return;
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+      }
+    });
+  },{rootMargin:'-40% 0px -55% 0px'});
+  secs.forEach(s=>io.observe(s));
+})();
+
+/* SPH towing tank sketch */
+(function(){
+  const cv=document.getElementById('tank');
+  if(!cv)return;
+  const ctx=cv.getContext('2d');
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const S=9; // particle spacing in px
+  let W,H,dpr,hull,deck,yW,bowX,L,t=0;
+
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+
+  function size(){
+    dpr=window.devicePixelRatio||1;
+    W=cv.clientWidth;H=cv.clientHeight;
+    cv.width=W*dpr;cv.height=H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    yW=H*0.5;
+    L=Math.min(W*0.62,560);
+    bowX=(W-L)/2;
+    const d=L*0.075, fb=L*0.06;
+    hull=new Path2D();
+    hull.moveTo(bowX+L*0.01,yW-fb);
+    hull.lineTo(bowX+L*0.02,yW);
+    hull.quadraticCurveTo(bowX-L*0.035,yW+d*0.45,bowX+L*0.03,yW+d*0.75);
+    hull.quadraticCurveTo(bowX+L*0.05,yW+d,bowX+L*0.12,yW+d);
+    hull.lineTo(bowX+L*0.84,yW+d);
+    hull.quadraticCurveTo(bowX+L*0.93,yW+d,bowX+L*0.97,yW+d*0.2);
+    hull.lineTo(bowX+L,yW-fb*0.15);
+    hull.lineTo(bowX+L,yW-fb);
+    hull.closePath();
+    deck=yW-fb;
+  }
+
+  function eta(x){
+    // free surface: gentle waves + bow wave + trough along hull
+    const r=(x-bowX)/L;
+    let e=2.2*Math.sin((x+t*40)*0.035);
+    e+=-9*Math.exp(-Math.pow((r+0.02)/0.05,2));    // bow wave crest
+    e+=4*Math.exp(-Math.pow((r-0.45)/0.25,2));     // mid trough
+    e+=-5*Math.exp(-Math.pow((r-1.08)/0.07,2));    // stern wave
+    return e;
+  }
+
+  function draw(){
+    const ink=css('--ink'),sea=css('--sea'),soft=css('--sea-soft'),buoy=css('--buoy'),muted=css('--muted');
+    ctx.clearRect(0,0,W,H);
+    const shift=(t*40)%S;
+    for(let x=-S+((S-shift)%S);x<W+S;x+=S){
+      const surf=yW+eta(x);
+      for(let y=yW-20;y<H+S;y+=S){
+        // particles drift slightly with depth-decaying orbital motion
+        const depth=(y-yW)/H;
+        const py=y+Math.sin((x+t*40)*0.035)*2.2*Math.exp(-depth*3);
+        if(py<surf)continue;
+        if(ctx.isPointInPath(hull,x*dpr,py*dpr))continue;
+        const near=Math.exp(-Math.pow(((x-bowX)/L-0.5)/0.6,2))*Math.exp(-Math.max(0,py-yW)/40);
+        ctx.fillStyle=sea;
+        ctx.globalAlpha=Math.min(1,0.28+near*1.2);
+        ctx.beginPath();ctx.arc(x,py,2.1,0,Math.PI*2);ctx.fill();
+      }
+    }
+    ctx.globalAlpha=1;
+    // hull
+    ctx.fillStyle=ink;ctx.fill(hull);
+    // container stacks
+    const rows=[0.10,0.18,0.26,0.34,0.42,0.50,0.58,0.66];
+    rows.forEach((r,i)=>{
+      const hgt=L*(i%3===1?0.05:0.042);
+      ctx.fillStyle=i%2?muted:sea;
+      ctx.globalAlpha=0.85;
+      ctx.fillRect(bowX+L*r,deck-hgt,L*0.07,hgt);
+    });
+    ctx.globalAlpha=1;
+    // superstructure
+    ctx.fillStyle=ink;
+    ctx.fillRect(bowX+L*0.78,deck-L*0.11,L*0.08,L*0.11);
+    ctx.fillStyle=buoy;
+    ctx.fillRect(bowX+L*0.795,deck-L*0.095,L*0.05,L*0.012);
+  }
+
+  function frame(){t+=1/60;draw();if(!reduce)requestAnimationFrame(frame);}
+  size();
+  window.addEventListener('resize',()=>{size();if(reduce)draw();});
+  if(reduce)draw();else requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
